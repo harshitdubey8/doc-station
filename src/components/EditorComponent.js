@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import EditorJS from "@editorjs/editorjs";
 
-const EditorComponent = () => {
-  const [data, setData] = useState(null);
+const EditorComponent = ({ notesHandler, editingData }) => {
   const editorRef = useRef(null);
 
   useEffect(() => {
@@ -36,6 +35,7 @@ const EditorComponent = () => {
           },
         },
       },
+      data: editingData ? editingData : undefined, // Provide the editing data if available
     });
 
     return () => {
@@ -44,11 +44,11 @@ const EditorComponent = () => {
         editorRef.current.destroy();
       }
     };
-  }, []);
+  }, [editingData]);
   const handleSave = async () => {
     if (editorRef.current) {
       const data = await editorRef.current.save();
-      setData(data);
+      notesHandler(data);
     }
   };
 
@@ -58,14 +58,6 @@ const EditorComponent = () => {
         {/* The editor will be rendered here */}
       </div>
       <button onClick={handleSave}>Save</button>
-
-      {data && (
-        <div>
-          <h2>Saved Data:</h2>
-
-          <pre>{JSON.stringify(data, null, 2)}</pre>
-        </div>
-      )}
     </div>
   );
 };

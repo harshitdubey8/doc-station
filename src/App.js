@@ -1,10 +1,11 @@
 import "./App.css";
-import EditorComponent from "./components/EditorComponent";
+
+import HomeScreen from "./screens/HomeScreen";
 
 function App() {
   return (
     <div className="App">
-      <EditorComponent />
+      <HomeScreen />
     </div>
   );
 }
