@@ -2,12 +2,26 @@ import React, { useState } from "react";
 import EditorComponent from "../components/EditorComponent";
 import DocsSections from "../components/DocsSections";
 
+import "./HomeScreen.css";
+import WelcomeComponent from "../components/WelcomeComponent";
+
 const HomeScreen = () => {
   const [notes, setNotes] = useState([]);
   const [editingData, setEditingData] = useState(null);
   //logic part
-  const NotesHandler = (data) => {
-    setNotes((prev) => [...prev, data]);
+  const NotesHandler = (newData) => {
+    const newDataIndex = notes.findIndex((data) => data.time === newData.time);
+    if (newDataIndex !== -1) {
+      // Update the existing object
+      const updatedData = [...notes];
+      updatedData[newDataIndex] = newData;
+      setNotes(updatedData);
+    } else {
+      // Add a new object
+      setNotes([...notes, newData]);
+    }
+
+    setEditingData(null);
   };
 
   const handlerHeadingClick = (data) => {
@@ -16,17 +30,12 @@ const HomeScreen = () => {
   };
 
   return (
-    <div>
-      <EditorComponent notesHandler={NotesHandler} editingData={editingData} />
+    <div className="homeScreenContainer">
+      <WelcomeComponent />
+
       <DocsSections handlerHeadingClick={handlerHeadingClick} docs={notes} />
 
-      {/* {notes && (
-        <div>
-          <h2>Saved Data:</h2>
-
-          <pre>{JSON.stringify(notes, null, 2)}</pre>
-        </div>
-      )} */}
+      <EditorComponent notesHandler={NotesHandler} editingData={editingData} />
     </div>
   );
 };

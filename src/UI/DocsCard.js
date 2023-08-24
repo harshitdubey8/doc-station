@@ -1,9 +1,11 @@
 import React from "react";
 
-const DocsCard = ({ item }) => {
+import "./DocsCard.css";
+
+const DocsCard = (props) => {
   return (
     <div className="docsCardContainer">
-      <h2>{item.time}</h2>
+      <h3 className="headingText"> {props.children}</h3>
     </div>
   );
 };

@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import EditorJS from "@editorjs/editorjs";
 
+import "./css/EditorComponent.css";
+
 const EditorComponent = ({ notesHandler, editingData }) => {
   const editorRef = useRef(null);
 
@@ -36,6 +38,11 @@ const EditorComponent = ({ notesHandler, editingData }) => {
         },
       },
       data: editingData ? editingData : undefined, // Provide the editing data if available
+      config: {
+        placeholder: "Enter a header",
+        levels: [2, 3, 4],
+        defaultLevel: 3,
+      },
     });
 
     return () => {
@@ -48,12 +55,28 @@ const EditorComponent = ({ notesHandler, editingData }) => {
   const handleSave = async () => {
     if (editorRef.current) {
       const data = await editorRef.current.save();
-      notesHandler(data);
+
+      // Prompt the user for confirmation
+      const shouldCreateNewDoc = window.confirm(
+        "Do you want to create a new document?"
+      );
+
+      if (shouldCreateNewDoc) {
+        // Create a new document
+        notesHandler({
+          time: Date.now(),
+          blocks: data.blocks,
+          version: "2.27.2",
+        });
+      } else {
+        // Update the existing data
+        notesHandler({ ...editingData, blocks: data.blocks });
+      }
     }
   };
 
   return (
-    <div>
+    <div className="editorComponentContainer">
       <div id="editorjs-container">
         {/* The editor will be rendered here */}
       </div>
