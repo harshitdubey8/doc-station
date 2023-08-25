@@ -2,7 +2,7 @@ import React from "react";
 import "./css/DocsSection.css";
 import DocsCard from "../UI/DocsCard";
 
-const DocsSections = ({ docs, handlerHeadingClick }) => {
+const DocsSections = ({ docs, handlerHeadingClick, deleteDocHandler }) => {
   return (
     <div className="docsSectionContainer">
       <h3> All Docs </h3>
@@ -13,14 +13,19 @@ const DocsSections = ({ docs, handlerHeadingClick }) => {
               (block) =>
                 block.type === "header" && block.data && block.data.text
             ) && (
-              <p onClick={() => handlerHeadingClick(dataObject)} key={index}>
-                {
-                  dataObject.blocks.find(
-                    (block) =>
-                      block.type === "header" && block.data && block.data.text
-                  ).data.text
-                }
-              </p>
+              <div>
+                <p onClick={() => handlerHeadingClick(dataObject)} key={index}>
+                  {
+                    dataObject.blocks.find(
+                      (block) =>
+                        block.type === "header" && block.data && block.data.text
+                    ).data.text
+                  }
+                </p>
+                <button onClick={() => deleteDocHandler(dataObject)}>
+                  Delete
+                </button>
+              </div>
             )}
           </DocsCard>
         ))}

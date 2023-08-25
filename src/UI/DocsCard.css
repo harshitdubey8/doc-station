@@ -1,5 +1,10 @@
 .docsCardContainer {
-  width: 400px;
+  width: 100%;
+  cursor: pointer;
+
+  :hover {
+    background-color: #ffffff;
+  }
 }
 
 .headingText {

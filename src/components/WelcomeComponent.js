@@ -4,7 +4,7 @@ import "./css/WelcomeComponent.css";
 const WelcomeComponent = () => {
   return (
     <div className="WelcomeSection">
-      <h2 className="welcomeHeading">Doc-Station</h2>
+      <h2 className="welcomeHeading">docStation</h2>
     </div>
   );
 };

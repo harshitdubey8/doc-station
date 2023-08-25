@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import EditorComponent from "../components/EditorComponent";
 import DocsSections from "../components/DocsSections";
 
@@ -8,20 +8,39 @@ import WelcomeComponent from "../components/WelcomeComponent";
 const HomeScreen = () => {
   const [notes, setNotes] = useState([]);
   const [editingData, setEditingData] = useState(null);
+
+  useEffect(() => {
+    const storedData = JSON.parse(localStorage.getItem("notes"));
+    if (storedData) {
+      setNotes(storedData);
+    }
+  }, []);
+
+  // Update local storage whenever notes are updated
+  useEffect(() => {
+    localStorage.setItem("notes", JSON.stringify(notes));
+  }, [notes]);
+
   //logic part
   const NotesHandler = (newData) => {
-    const newDataIndex = notes.findIndex((data) => data.time === newData.time);
-    if (newDataIndex !== -1) {
-      // Update the existing object
-      const updatedData = [...notes];
-      updatedData[newDataIndex] = newData;
-      setNotes(updatedData);
-    } else {
-      // Add a new object
-      setNotes([...notes, newData]);
-    }
+    if (
+      newData.blocks.some(
+        (block) => block.type === "header" && block.data && block.data.text
+      )
+    ) {
+      const newDataIndex = notes.findIndex(
+        (data) => data.time === newData.time
+      );
+      if (newDataIndex !== -1) {
+        const updatedData = [...notes];
+        updatedData[newDataIndex] = newData;
+        setNotes(updatedData);
+      } else {
+        setNotes([...notes, newData]);
+      }
 
-    setEditingData(null);
+      setEditingData(null);
+    }
   };
 
   const handlerHeadingClick = (data) => {
@@ -29,11 +48,22 @@ const HomeScreen = () => {
     console.log("clicked");
   };
 
+  const handlerDeleteDoc = (dataToDelete) => {
+    const updatedNotes = notes.filter(
+      (data) => data.time !== dataToDelete.time
+    );
+    setNotes(updatedNotes);
+  };
+
   return (
     <div className="homeScreenContainer">
       <WelcomeComponent />
 
-      <DocsSections handlerHeadingClick={handlerHeadingClick} docs={notes} />
+      <DocsSections
+        handlerHeadingClick={handlerHeadingClick}
+        docs={notes}
+        deleteDocHandler={handlerDeleteDoc}
+      />
 
       <EditorComponent notesHandler={NotesHandler} editingData={editingData} />
     </div>
