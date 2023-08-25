@@ -5,4 +5,16 @@
   background-color: #f4f6f7;
   padding-top: 30px;
   padding-left: 10px;
+  overflow-y: scroll;
+}
+
+.deleteButton {
+  display: inline-block;
+  padding: 10px 20px;
+
+  color: #4d4d4d;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }

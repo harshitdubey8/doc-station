@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import EditorJS from "@editorjs/editorjs";
 
 import "./css/EditorComponent.css";
+import SaveIcon from "@mui/icons-material/Save";
 
 const EditorComponent = ({ notesHandler, editingData }) => {
   const editorRef = useRef(null);
@@ -77,10 +78,13 @@ const EditorComponent = ({ notesHandler, editingData }) => {
 
   return (
     <div className="editorComponentContainer">
+      <button className="saveButton" onClick={handleSave}>
+        <SaveIcon />
+      </button>
+
       <div id="editorjs-container">
         {/* The editor will be rendered here */}
       </div>
-      <button onClick={handleSave}>Save</button>
     </div>
   );
 };

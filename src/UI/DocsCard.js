@@ -5,7 +5,7 @@ import "./DocsCard.css";
 const DocsCard = (props) => {
   return (
     <div className="docsCardContainer">
-      <h3 className="headingText"> {props.children}</h3>
+      <h3 className="childrenSection"> {props.children}</h3>
     </div>
   );
 };

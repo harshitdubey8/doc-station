@@ -2,10 +2,13 @@ import React from "react";
 import "./css/DocsSection.css";
 import DocsCard from "../UI/DocsCard";
 
+import DeleteIcon from "@mui/icons-material/Delete";
+
 const DocsSections = ({ docs, handlerHeadingClick, deleteDocHandler }) => {
   return (
     <div className="docsSectionContainer">
       <h3> All Docs </h3>
+
       <ul>
         {docs.map((dataObject, index) => (
           <DocsCard key={index}>
@@ -13,7 +16,13 @@ const DocsSections = ({ docs, handlerHeadingClick, deleteDocHandler }) => {
               (block) =>
                 block.type === "header" && block.data && block.data.text
             ) && (
-              <div>
+              <div
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "space-between",
+                }}
+              >
                 <p onClick={() => handlerHeadingClick(dataObject)} key={index}>
                   {
                     dataObject.blocks.find(
@@ -22,8 +31,11 @@ const DocsSections = ({ docs, handlerHeadingClick, deleteDocHandler }) => {
                     ).data.text
                   }
                 </p>
-                <button onClick={() => deleteDocHandler(dataObject)}>
-                  Delete
+                <button
+                  onClick={() => deleteDocHandler(dataObject)}
+                  className="deleteButton"
+                >
+                  <DeleteIcon />
                 </button>
               </div>
             )}
